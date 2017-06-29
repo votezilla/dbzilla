@@ -1,0 +1,54 @@
+<style>
+td.data, th.data {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr.data:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+
+<h1>Edit the database</h1>
+
+<h3>Database [{{.Database}}]:
+ {{range .Databases}}
+   <a href='/SelectDb?db={{.}}'>{{.}}</a>
+ {{end}}
+</h3>
+
+<h3>Tables:
+ {{range .Tables}}
+   <a href='/DescribeTable?table={{.}}'>{{.}}</a><a href='/SelectAll?table={{.}}'>*</a><a href='/SelectCount?table={{.}}'>#</a>
+ {{end}}
+</h3>
+
+<form action='/Query' method=POST>
+  <table>
+    <tr>
+      <td>Query:</td>
+      <td><textarea name=query rows=15 cols=160>{{.Query}}</textarea></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type=submit value=Query></td>
+  </table>
+</form>
+
+<br>
+
+<table class="data">
+ <tr class="data">
+   {{range .Columns}}
+     <th class="data">{{.}}</th>
+   {{end}}
+ </tr>
+ {{range .Data}}
+   <tr class="data">
+     {{range .}}
+       <td class="data">{{.}}</td>
+     {{end}}
+   </tr>
+ {{end}}
+</table>
